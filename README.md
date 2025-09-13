@@ -16,7 +16,7 @@ public/
   openapi-example.json     # Example OpenAPI spec
 src/
   components/
-    Openapi-lit-viewer.ts  # The web component
+    OpenApiLitViewer.ts  # The web component
   styles/
     openapi-base.css       # Base + theme CSS
 README.md
@@ -34,7 +34,7 @@ pnpm dev
 ### 2. Include in your project
 
 ```ts
-import './components/Openapi-lit-viewer.ts';
+import './components/OpenApiLitViewer.ts';
 ```
 
 Use it in HTML:
