@@ -1,0 +1,91 @@
+:host {
+  /* Typography */
+  --font-family: system-ui, sans-serif;
+  --font-size: 14px;
+  --line-height: 1.5;
+
+  /* Colors (default/light) */
+  --bg-color: #f9f9f9;
+  --text-color: #333;
+  --subtext-color: #666;
+  --border-color: #ddd;
+
+  --accent-get: #2ecc71;
+  --accent-post: #3498db;
+  --accent-put: #f39c12;
+  --accent-delete: #e74c3c;
+
+  display: block;
+}
+
+/* Dark theme overrides */
+:host([theme="dark"]) {
+  --bg-color: #1e1e1e;
+  --text-color: #eaeaea;
+  --subtext-color: #bbbbbb;
+  --border-color: #444;
+
+  --accent-get: #81c784;
+  --accent-post: #64b5f6;
+  --accent-put: #ffb74d;
+  --accent-delete: #e57373;
+}
+
+.openapi-viewer {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  background: var(--bg-color);
+  color: var(--text-color);
+  padding: 1rem;
+}
+
+.openapi-path {
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.openapi-path-header {
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  background: var(--border-color);
+  color: var(--text-color);
+}
+
+.openapi-method {
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.openapi-method.get {
+  color: var(--accent-get);
+  border-left: 6px solid var(--accent-get);
+}
+
+.openapi-method.post {
+  color: var(--accent-post);
+  border-left: 6px solid var(--accent-post);
+}
+
+.openapi-method.put {
+  color: var(--accent-put);
+  border-left: 6px solid var(--accent-put);
+}
+
+.openapi-method.delete {
+  color: var(--accent-delete);
+  border-left: 6px solid var(--accent-delete);
+}
+
+.openapi-method-summary {
+  color: var(--subtext-color);
+  font-weight: 500;
+}
+
+.openapi-method-description {
+  font-size: 0.9em;
+  color: var(--subtext-color);
+  margin-top: 0.25rem;
+}
