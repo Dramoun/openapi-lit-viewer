@@ -38,6 +38,7 @@ type OpenApiPath = {
     parameters?: OpenApiParameter[];
     requestBody?: unknown;
     responses: Record<string, OpenApiResponse>;
+    operationId: string;
   };
 };
 
@@ -96,35 +97,58 @@ export class OpenApiLitViewer extends LitElement {
     }
   }
 
-  private _genPaths() {
-    if (!this._openapiData) {
-      return html``;
+  private _infoWithHeader(headerText: string, infoText?: string, showIfMissing: boolean = false) {
+    if (!infoText && !showIfMissing) {
+      return null;
     }
 
-    const paths = Object.entries(this._openapiData.paths);
+    return html`
+      <div class="openapi-info-block">
+        <div class="openapi-info-header"><strong>${headerText}</strong></div>
+        <div class="openapi-info-text">
+          ${infoText || `No ${headerText}`}
+        </div>
+      </div>
+    `;
+  }
+
+
+  private _genMethod(method: string, details: any) {
+    return html`
+      <li class="openapi-method ${method}">
+        <strong>${method.toUpperCase()}</strong>
+        ${this._infoWithHeader("Summary", details.summary)}
+        ${this._infoWithHeader("Description", details.description)}
+        ${this._infoWithHeader("Operation ID", details.operationId)}
+      </li>
+    `;
+  }
+
+  private _genPathDetails(methods: OpenApiPath) {
+    return Object.entries(methods).map(([method, details]: [string, any]) =>
+      this._genMethod(method, details)
+    );
+  }
+
+  private _genPath(path: string, methods: OpenApiPath) {
+    return html`
+      <div class="openapi-path">
+        <div class="openapi-path-header">${path}</div>
+        <ul>
+          ${this._genPathDetails(methods)}
+        </ul>
+      </div>
+    `;
+  }
+
+  private _genPaths() {
+    if (!this._openapiData) return html``;
 
     return html`
       <div class="paths">
-        ${paths.map(([path, methods]) => html`
-          <div class="openapi-path">
-            <div class="openapi-path-header">${path}</div>
-            <ul>
-              ${Object.entries(methods).map(([method, details]: [string, any]) => html`
-                <li class="openapi-method ${method}">
-                  <strong>${method.toUpperCase()}</strong>
-                  <p class="openapi-method-summary">
-                    ${details.summary || 'No summary'}
-                  </p>
-                  ${details.description ? html`
-                    <p class="openapi-method-description">
-                      ${details.description}
-                    </p>
-                  ` : 'No Description'}
-                </li>
-              `)}
-            </ul>
-          </div>
-        `)}
+        ${Object.entries(this._openapiData.paths).map(([path, methods]) =>
+          this._genPath(path, methods)
+        )}
       </div>
     `;
   }
